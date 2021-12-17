@@ -1,25 +1,33 @@
 const router = require('express').Router();
-const { Post, User, Vote } = require('../../models');
+const { Post, User, Vote, Comment } = require('../../models');
 const sequelize = require('../../config/connection');
 
 // GET /api/posts; get all users
 router.get('/', (req, res) => {
     Post.findAll({
-        // Query configuration
+        order: [['created_at', 'DESC']],
         attributes: [
             'id',
             'post_url',
             'title',
             'created_at',
-            // include the total vote count for the post
             [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
-          ],
-        order: [['created_at', 'DESC']], 
+        ],
         include: [
-            {
+          // include the Comment model here:
+          {
+            model: Comment,
+            attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+            //includes the User model to attach the username to the comment
+            include: {
+                model: User,
+                attributes: ['username']
+            }
+          },
+          {
             model: User,
             attributes: ['username']
-            }
+          }
         ]
     })
     .then(dbPostData => res.json(dbPostData))
@@ -44,9 +52,19 @@ router.get('/:id', (req, res) => {
         [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
       ],
       include: [
+        // include the Comment model here:
         {
-          model: User,
-          attributes: ['username']
+            model: Comment,
+            attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+            //includes the User model to attach the username to the comment
+            include: {
+                model: User,
+                attributes: ['username']
+            }
+        },
+        {
+            model: User,
+            attributes: ['username']
         }
       ]
     })
