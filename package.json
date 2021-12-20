@@ -4,12 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-<<<<<<< HEAD
-    "start": "node server.js"
-=======
     "start": "node server.js",
     "test": "jest"
->>>>>>> develop
   },
   "repository": {
     "type": "git",
@@ -23,12 +19,6 @@
   "homepage": "https://github.com/kassidyr/just-tech-news#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
-<<<<<<< HEAD
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "mysql2": "^2.3.3",
-    "sequelize": "^6.12.0-beta.3"
-=======
     "connect-session-sequelize": "^7.1.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -39,6 +29,5 @@
   },
   "devDependencies": {
     "jest": "^27.4.5"
->>>>>>> develop
   }
 }
