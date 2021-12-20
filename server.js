@@ -1,18 +1,38 @@
-const express = require('express');
-const sequelize = require('./config/connection');
 const path = require('path');
+const express = require('express');
+const session = require('express-session');
 const exphbs = require('express-handlebars');
-const hbs = exphbs.create({});
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+const sequelize = require('./config/connection');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+//connects the Expresss.js session to the Sequelize database
+const sess = {
+  //Replace with actual secret and store in .env
+  secret: 'Super secret secret',
+  cookie: {},
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize
+  })
+};
+
+app.use(session(sess));
+
+const hbs = exphbs.create({});
+
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //makes the public folder available to the client
 app.use(express.static(path.join(__dirname, 'public')));
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
+
 
 app.use(require('./controllers/'));
 
