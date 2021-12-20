@@ -113,7 +113,7 @@ router.post('/login', (req, res) => {
 });
 
 // PUT Update a user based on ID
-router.put('/:id', (req, res) => {
+router.put('/:id',(req, res) => {
     // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
   
     // if req.body has exact key/value pairs to match the model, you can just use `req.body` instead
