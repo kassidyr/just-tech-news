@@ -38,7 +38,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use(require('./controllers/'));
->>>>>>> develop
 
 // turn on connection to db and server
 // force: true makes the database connection sync with the model definitions and associations; the tables re-create if there are association changes (similar to DROP TABLE IF EXISTS; this allows the table to be overwritten and re-created)
